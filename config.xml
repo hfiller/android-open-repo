@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.dexit.mobile.app.template" version="0.1.0" xmlns="http://www.w3.org/ns/widgets"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>DEX Mobile-A1</name>
+    <description>
+        DEX mobile application to demonstrate the power of Smart-Content.
+    </description>
+    <author email="support@dexit.co" href="http://www.dexit.co">
+        DEX Support Team
+    </author>
+    <content src="index.html"/>
+    <platform name="blackberry10">
+        <access origin="https://herokuapp.com" subdomains="true"/>
+        <access origin="https://dotcloud.com" subdomains="true"/>
+        <access origin="https://dexit.co" subdomains="true"/>
+    </platform>
+    <icon src="icon.png"/>
+    <preference name="LoadUrlTimeoutValue" value="30000"/>
+    <preference name="LogLevel" value="INFO"/>
+    <platform name="ios">
+        <preference name="AllowInlineMediaPlayback" value="true"/>
+    </platform>
+    <preference name="MediaPlaybackRequiresUserAction" value="false"/>
+    <access origin="*"/>
+</widget>
