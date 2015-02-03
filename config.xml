@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.dexit.mobile.app.template" version="0.1.0" xmlns="http://www.w3.org/ns/widgets"
         xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>DEX Mobile-A1</name>
+    <name>DEX Mobile-App-Template</name>
     <description>
-        DEX mobile application to demonstrate the power of Smart-Content.
+        DEX mobile application template that can show SC within mobile app.
     </description>
     <author email="support@dexit.co" href="http://www.dexit.co">
         DEX Support Team
