@@ -33,19 +33,27 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
+        alert("device ready");
         app.receivedEvent('deviceready');
-        dexit.msdk.setPlayerUrl("player.dexit.co","/player")
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
 
         listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+        receivedElement.setAttribute('style', 'display:done;');
 
         console.log('Received Event: ' + id);
+        //dexit.msdk.setPlayerUrl("player.dexit.co","/player");
+
+
+        //var parentElement = document.getElementById('playerFrame');
+
+
+
     }
 };
 

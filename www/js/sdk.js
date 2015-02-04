@@ -17,6 +17,7 @@ if (!dexit.msdk) {
  * @param location {string} location suffix (ie.  ?location=111)  Defaults to ""
  */
 dexit.msdk.setPlayerUrl = function(host,path,location) {
+
     var str = "https://" + host;
     if (path) {
         str+= path
@@ -24,5 +25,8 @@ dexit.msdk.setPlayerUrl = function(host,path,location) {
     if (location) {
         str+= location
     }
-    document.getElementById('playerFrame').src = str;
+
+    var parentElement = document.getElementById('playerFrame');
+    parentElement.src = str;
+
 }
