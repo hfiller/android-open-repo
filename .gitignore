@@ -1,6 +1,14 @@
+#Default
 platforms
 .idea
 node_modules
 www/lib/
+
+#Everyone
 plugins/
 out/
+
+#Nick
+obj/
+bin/
+*.csproj

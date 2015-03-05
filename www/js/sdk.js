@@ -3,12 +3,10 @@
  * @description
  */
 
-if (!dexit) {
-    dexit = {};
-}
-if (!dexit.msdk) {
-    dexit.msdk = {};
-}
+var dexit = {
+    msdk: {},
+    test: {}
+};
 
 /**
  * Set the player url.
