@@ -45,6 +45,8 @@
     }
 };
 
+var dexit = {test:{xKBplugin:{}}};
+
 dexit.test.xKBplugin.extract = function(args) {
 
     console.log("extract is passing")

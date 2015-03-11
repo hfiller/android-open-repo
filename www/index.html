@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
@@ -6,86 +6,64 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
 
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
 
-        <title>Hello World</title>
-
-        <!--Libs-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="http://jsconsole.com/remote.js?dex-iteration-2"></script>
+        <title>ANUC App</title>        
     </head>
     <body>
-        <div id='login'>
-            <h2>Login Info</h2>
-            <input id='username' type="text" placeholder="username" />
-            <input id='password' type="password" placeholder="password" />
-            <input id='enter'type="button" value="Validate"/>
-        </div>
-        <iframe class="player" id="playerFrame" src="http://sc-playback-daily.herokuapp.com/player/?andrew=1"style="display:none;"></iframe>
-        <div id='main' style='display:none'>
-
-        </div>
-
-        <script type="text/javascript" src="cordova.js"></script>
-        
-        <script type="text/javascript">
-        $('#enter').click(function(){
-            $('#username').val();
-            var username = encodeURIComponent($('#username').val());
-		    var password = encodeURIComponent($('#password').val());
-            $('#login').css('display','none');
-            $('#main').css('display','inline');
-		    $.ajax({
-                type:"POST",
-                url:"http://ice4e-developer.dexit.co/login?IDToken1="+username+"&IDToken2="+password+"&Login.Submit=Sign+In",
-                headers:{
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }).done(function(loggedIn){
-                console.log('something happened:');
-                console.log(loggedIn);
-            })
-            $.ajax({
-			    type:"POST",
-			    url:"https://sso.dexit.co/openam/oauth2/access_token?realm=altostratus&grant_type=password&username="+username+"&password="+password,
-			    headers: {
-				    'Authorization':'Basic ZHgtc2VydmljZToxMjMtNDU2LTc4OQ==',
-				    'Content-Type' : 'application/x-www-form-urlencoded'
-			    }
-		    }).done(function(tokenObject){
-			    console.log('Token\n' + JSON.stringify(tokenObject));
-
-			    $.ajax({
-				    type:"POST",
-				    url:"developer.kb.dexit.co/access/stores/course_admin/query?query=SELECT%20*%20FROM%20developer_course_student%20JOIN%20developer_course%20ON%20developer_course_student.course_id%20%3D%20developer_course.course_id%20AND%20student_email%3D%27"+username+"%27%3B",
-				    headers:{
-					    'Authorization':'Bearer ' + tokenObject.access_token
-				    }
-			    }).done(display(msg))
-		    });
-        display(JSON.parse('{"result":{"headers":["course_id","student_email","grade","id","course_id","course_name","course_description","tenant"],"types":["VARCHAR","VARCHAR","VARCHAR","INT","VARCHAR","VARCHAR","VARCHAR","VARCHAR"],"rows":[["SE3350b","hfiller2@uwo.ca","113","1","SE3350b","Software Engineering","Software engineering","default"],["SE2245","hfiller2@uwo.ca","65","3","SE2245","Internet Etchnology","TBD","default"],["SE3350","hfiller2@uwo.ca","75","4","SE3350","Software Engineering Design II","Agile Processes","default"]]}}'));
-        });
-            function display(msg){
-                var rows = '<ul>'
-                for( var i in msg.result.rows){
-                    //[0] courseId, [1] student, [2] course
-                    rows += '<li><span >Course:<a class="course" course="'+msg.result.rows[i][0]+'">'+msg.result.rows[i][0]+'</a></span>  '+msg.result.rows[i][5]+'<span> Grade:'+msg.result.rows[i][2]+'</span><br><span id="'+msg.result.rows[i][0]+'Data" style="display:none">'+msg.result.rows[i][6]+'<a class="lecture" link="http://player.dexit.co/player/?course='+msg.result.rows[i][0]+'-altostratus">Lecture</a></span></li>';
-                }
-                rows += '</ul>';
-                $('#main').append(rows);
-            $('.lecture').click(function(e){
-                $('#playerFrame').attr('src',($(this).attr('link')));//+"&time="+new Date().getTime()
-                $('#playerFrame').css('display','inline');
-                $('#main').css('display','none');
-                 
-            })
-            $('.course').click(function(e){
-                $(('#'+$(this).attr('course')+'Data')).css('display','inline');
-            })
-            }
-            
-
+        <!--Templates-->
+        <script id="header" type="text/x-handlebars">
+            <div class="header">
+                <div>
+                    {{#if isBack}}<input type="button" {{action "back"}} value="Back" />{{/if}}
+                    <span>{{title}}</span>
+                </div>
+            </div>
         </script>
+
+        <script id="index" type="text/x-handlebars">
+            {{partial "header"}}
+            <div class="login_container">
+                <input type="text" {{bind-attr value=username}} placeholder="username" />
+                <br />
+                <input type="password" {{bind-attr value=password}} placeholder="password" />
+                <br />
+                <input type="button" {{action "validate"}} value="Login" />
+                <br />
+            </div>
+        </script>
+
+        <script id="courses" type="text/x-handlebars">
+            {{partial "header"}}
+            <ul class="course_list">
+                {{#each course in model}}
+                {{#link-to courses.course course.course_id tagName="li" class="course_item"}}
+                    {{course.course_name}}
+                {{/link-to}}
+                {{/each}}
+            </ul>
+        </script>
+
+        <script id="player" type="text/x-handlebars">
+            {{partial "header"}}
+            <iframe {{bind-attr src=href}} class="player"></iframe>
+        </script>
+
+        <!--Scripts-->
+        <script src="http://jsconsole.com/remote.js?dex-iteration-2"></script>
+
+        <script src="js/libs/jquery-1.11.2.min.js"></script>
+        <script src="js/libs/handlebars-v2.0.0.js"></script>
+        <script src="js/libs/ember.js"></script>
+        <script src="js/libs/ember-handlebars-loader-0.0.1.js"></script>
+
+        <script type="text/javascript" src="js/dex.js"></script>
+        <!--<script type="text/javascript" src="js/index.js"></script>-->
+
+        <script type="text/javascript" src="js/extern.js"></script>
+        <script type="text/javascript" src="js/init.js"></script>
+        <script type="text/javascript" src="js/controllers.js"></script>
+        <script type="text/javascript" src="js/routes.js"></script>
     </body>
 </html>

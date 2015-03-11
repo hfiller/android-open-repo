@@ -1,8 +1,36 @@
-#display {
-    width: 100vw;
-    height: 100vh;
+body {
+    font-family: Helvetica;
 }
 
-#hide {
-    display: none;
+input {
+    border: solid #555555 1px;
+    border-radius: 3px;
+}
+
+.header {
+    position: fixed;
+}
+.header div {
+    width: 100vw;
+    padding: 20px;
+    background: #333333;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+}
+.header input {
+    display: block;
+    position: absolute;
+}
+.header span {
+    color: white;
+    font-size: 20px;
+}
+
+.login_container {
+    text-align: center;
+}
+.login_container input {
+    display: inline-block;
+    margin-top: 15px;
 }
