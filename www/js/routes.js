@@ -3,13 +3,13 @@
 });
 
 App.IndexRoute = Em.Route.extend({
-    model: function() { this.modelFor('application'); }
+    model: function() { return this.modelFor('application'); }
 });
 
 App.CoursesRoute = Em.Route.extend({
     model: function() {
         var u = this.modelFor('application');
-        return Ex.getCourses(u.username);
+        return Ex.getCourses(u.get('username'), u.get('password'));
     }
 });
 
@@ -20,5 +20,9 @@ App.CoursesIndexRoute = Em.Route.extend({
 App.CoursesCourseRoute = Em.Route.extend({
     model: function(params) {
         return this.modelFor('courses').filterBy('course_id', params.course_id)[0];
+    },
+
+    afterModel: function() {
+        dexit.test.xKBplugin.extract();
     }
 });

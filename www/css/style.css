@@ -7,9 +7,14 @@ input {
     border-radius: 3px;
 }
 
-.header {
+.invisible {
+    opacity: 0;
+}
+
+.fixed {
     position: fixed;
 }
+
 .header div {
     width: 100vw;
     padding: 20px;
@@ -33,4 +38,10 @@ input {
 .login_container input {
     display: inline-block;
     margin-top: 15px;
+}
+
+.player {
+    border: 0px;
+    width: 100vw;
+    height: 800px;
 }

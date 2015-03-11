@@ -1,51 +1,71 @@
 ﻿var Ex = {
-    getToken: function() {
-        var u = encodeURIComponent('hfiller2@uwo.ca'),
-            p = encodeURIComponent('Lieske25113');
+    getToken: function(username, password) {
+        var a = username.indexOf('@');
+        if(a < 0) { username += '@uwo.ca'; }
 
-        return $.ajax({
-	        type:"POST",
-	        url:"https://sso.dexit.co/openam/oauth2/access_token?realm=altostratus&grant_type=password&username=" + u + "&password=" + p,
-	        headers: {
-		        'Authorization':'Basic ZHgtc2VydmljZToxMjMtNDU2LTc4OQ==',
-		        'Content-Type' : 'application/x-www-form-urlencoded'
-	        }
-        })
-        .then(function(res) { return res.access_token }).promise();
+        return new Em.RSVP.Promise(function(resolve, reject) {
+            $.ajax({
+	            type:"POST",
+	            url:"https://sso.dexit.co/openam/oauth2/access_token?realm=altostratus&grant_type=password&username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password),
+	            headers: {
+		            'Authorization':'Basic ZHgtc2VydmljZToxMjMtNDU2LTc4OQ==',
+		            'Content-Type' : 'application/x-www-form-urlencoded'
+	            }
+            })
+            .then(function(res) { resolve(res.access_token); })
+        });
 	},
 
-    getCourses: function(username) {
-        return Ex.getToken().then(function(token) {
-            return $.ajax({
-	            type:"POST",
-	            url:"developer.kb.dexit.co/access/stores/course_admin/query?query=SELECT%20*%20FROM%20developer_course_student%20JOIN%20developer_course%20ON%20developer_course_student.course_id%20%3D%20developer_course.course_id%20AND%20student_email%3D%27"+username+"%27%3B",
-	            headers:{
-		            'Authorization':'Bearer ' + tokenObject.access_token
-	            }
-            });
-        }).then(function(msg) {
-            var ret = [],
-                cols = msg.result.headers;
+    getCourses: function(username, password) {
+        var a = username.indexOf('@');
+        if(a < 0) { username += '@uwo.ca'; }
 
-            msg.result.rows.forEach(function(row) {
-                var p = {};
-                for(var i = 0; i < row.legnth; i++) { p[cols[i]] = row[i] }
-                ret.push(p);
-            });
+        return new Em.RSVP.Promise(function(resolve, reject) {
+            Ex.getToken(username, password)
+            .then(function(token) {
+                return $.ajax({
+	                type:"POST",
+	                url: 'http://developer.kb.dexit.co/access/stores/course_admin/query?query=' + encodeURIComponent("SELECT * FROM developer_course_student JOIN developer_course ON developer_course_student.course_id = developer_course.course_id AND student_email = '" + username + "';"),
+	                headers: {'Authorization': 'Bearer ' + token}
+                })
+                .then(function(msg) { return msg.result });
+            })
+            .then(function(res) {
+                console.log('test');
+                var ret = [],
+                    cols = res.headers;
 
-            return ret;
-        }).promise();
+                res.rows.forEach(function(row) {
+                    var p = {};
+                    for(var i = 0; i < row.length; i++) { p[cols[i]] = row[i] }
+                    ret.push(p);
+                });
+
+                console.log(ret);
+                resolve(ret);
+            })
+        });
     },
 
     authorizePlayer: function(username, password) {
-        return $.ajax({
-            type:"POST",
-            url:"http://ice4e-developer.dexit.co/login?IDToken1="+username+"&IDToken2="+password+"&Login.Submit=Sign+In",
-            headers:{
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).promise();
+        return new Em.RSVP.Promise(function(resolve, reject) {
+            $.ajax({
+                type:"POST",
+                url: 'http://ice4e-developer.dexit.co/login?IDToken1=' + encodeURI(username) + "&IDToken2=" + encodeURI(password) + "&Login.Submit=Sign+In",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(function(res) { resolve(res); });
+        });
     }
 };
+
+/*
+$.Deferred.prototype.toRSVP = function() {
+    return new Em.RSVP.Promise(function(resolve, reject) {
+        this.done(function(value) { resolve(value); });
+    });
+};
+*/
+
 
 //http://player.dexit.co/player/?course

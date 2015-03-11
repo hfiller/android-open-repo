@@ -12,12 +12,11 @@ App.IndexController = App.HeaderController.extend({
 
     actions: {
         validate: function() {
-            var u = this.get('username'),
-                p = this.get('password');
+            var controller = this;
 
-            Ex.authorizePlayer().then(function() {
-                if(someCondition) {
-                    this.transitionToRoute(courses);
+            Ex.getToken(this.get('username'), this.get('password')).then(function(token) {
+                if(token) {
+                    controller.transitionToRoute('courses.index');
                 }
                 else {
                     alert('Username or Password Incorrect');
@@ -37,7 +36,8 @@ App.CoursesIndexController = App.HeaderController.extend({
 });
 
 App.CoursesCourseController = App.HeaderController.extend({
-    title: function() { return this.get('course_name'); },
+    title: function() { return this.get('course_name'); }.property('course_name'),
+    href: function() { return "http://player.dexit.co/player/?course=" + this.get('course_id') + '-altostratus'; }.property('course_id'),
 
     actions: {
         back: function() { this.transitionToRoute('courses.index'); }

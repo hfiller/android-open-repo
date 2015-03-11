@@ -54,17 +54,17 @@ dexit.test.xKBplugin.extract = function(args) {
     var pos = navigator.geolocation.getCurrentPosition(
           function(position) {
               console.log(position.coords.latitude + ',' + position.coords.longitude);
+              var x = {
+                  position:pos,
+                  time:(new Date().getTime())
+              };
+              console.log(x);
               return position;
           },
           function() {
               console.log('Error getting location');
           }
     );
-
-    return {
-        position:pos,
-        time:(new Date().getTime())
-    };
 };
 
 dexit.test.xKBplugin.update = function(args) {

@@ -14,9 +14,14 @@
     <body>
         <!--Templates-->
         <script id="header" type="text/x-handlebars">
-            <div class="header">
+            <div class="header fixed">
                 <div>
                     {{#if isBack}}<input type="button" {{action "back"}} value="Back" />{{/if}}
+                    <span>{{title}}</span>
+                </div>
+            </div>
+            <div class="header invisible">
+                <div>
                     <span>{{title}}</span>
                 </div>
             </div>
@@ -25,27 +30,27 @@
         <script id="index" type="text/x-handlebars">
             {{partial "header"}}
             <div class="login_container">
-                <input type="text" {{bind-attr value=username}} placeholder="username" />
+                {{input type="text" value=username placeholder="username"}}
                 <br />
-                <input type="password" {{bind-attr value=password}} placeholder="password" />
+                {{input type="password" value=password placeholder="password"}}
                 <br />
                 <input type="button" {{action "validate"}} value="Login" />
                 <br />
             </div>
         </script>
 
-        <script id="courses" type="text/x-handlebars">
+        <script id="courses/index" type="text/x-handlebars">
             {{partial "header"}}
             <ul class="course_list">
-                {{#each course in model}}
-                {{#link-to courses.course course.course_id tagName="li" class="course_item"}}
-                    {{course.course_name}}
+                {{#each cor in model}}
+                {{#link-to "courses.course" cor.course_id tagName="li" class="course_item"}}
+                    {{cor.course_name}}
                 {{/link-to}}
                 {{/each}}
             </ul>
         </script>
 
-        <script id="player" type="text/x-handlebars">
+        <script id="courses/course" type="text/x-handlebars">
             {{partial "header"}}
             <iframe {{bind-attr src=href}} class="player"></iframe>
         </script>
@@ -59,11 +64,10 @@
         <script src="js/libs/ember-handlebars-loader-0.0.1.js"></script>
 
         <script type="text/javascript" src="js/dex.js"></script>
-        <!--<script type="text/javascript" src="js/index.js"></script>-->
 
         <script type="text/javascript" src="js/extern.js"></script>
         <script type="text/javascript" src="js/init.js"></script>
-        <script type="text/javascript" src="js/controllers.js"></script>
         <script type="text/javascript" src="js/routes.js"></script>
+        <script type="text/javascript" src="js/controllers.js"></script>
     </body>
 </html>
