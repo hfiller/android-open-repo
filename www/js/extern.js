@@ -31,7 +31,6 @@
                 .then(function(msg) { return msg.result });
             })
             .then(function(res) {
-                console.log('test');
                 var ret = [],
                     cols = res.headers;
 
@@ -41,7 +40,6 @@
                     ret.push(p);
                 });
 
-                console.log(ret);
                 resolve(ret);
             })
         });
@@ -51,7 +49,7 @@
         return new Em.RSVP.Promise(function(resolve, reject) {
             $.ajax({
                 type:"POST",
-                url: 'http://ice4e-developer.dexit.co/login?IDToken1=' + encodeURI(username) + "&IDToken2=" + encodeURI(password) + "&Login.Submit=Sign+In",
+                url: 'http://ice4e-developer.dexit.co/login?IDToken1=' + encodeURIComponent(username) + "&IDToken2=" + encodeURIComponent(password) + "&Login.Submit=Sign+In",
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
             .then(function(res) { resolve(res); });

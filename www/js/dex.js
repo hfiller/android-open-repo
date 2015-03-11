@@ -48,9 +48,6 @@
 var dexit = {test:{xKBplugin:{}}};
 
 dexit.test.xKBplugin.extract = function(args) {
-
-    console.log("extract is passing")
-
     var pos = navigator.geolocation.getCurrentPosition(
           function(position) {
               console.log(position.coords.latitude + ',' + position.coords.longitude);

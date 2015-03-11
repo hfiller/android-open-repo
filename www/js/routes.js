@@ -22,7 +22,8 @@ App.CoursesCourseRoute = Em.Route.extend({
         return this.modelFor('courses').filterBy('course_id', params.course_id)[0];
     },
 
-    afterModel: function() {
+    beforeModel: function() {
+        Ex.authorizePlayer();
         dexit.test.xKBplugin.extract();
     }
 });

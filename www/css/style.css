@@ -45,3 +45,22 @@ input {
     width: 100vw;
     height: 800px;
 }
+
+.course_list {
+    list-style-type: none;
+    width: 100vw;
+}
+.course_list li {
+    width: 100%;
+    box-sizing: border-box;
+
+    background-color: #F4755F;
+    color: white;
+    font-size: 20px;
+
+    border-style: solid;
+    border-color: none;
+    border-width: 5px 5px 0 5px;
+    
+    padding: 20px; 
+}

@@ -1,8 +1,4 @@
 ﻿App.HeaderController = Em.ObjectController.extend({
-    isBack: function() {
-        return this.get('actions.back');
-    }.property('actions.back'),
-
     title: ''
 });
 
@@ -29,6 +25,7 @@ App.IndexController = App.HeaderController.extend({
 
 App.CoursesIndexController = App.HeaderController.extend({
     title: 'Courses',
+    isBack: true,
 
     actions: {
         back: function() { this.transitionToRoute('index'); }
@@ -37,6 +34,7 @@ App.CoursesIndexController = App.HeaderController.extend({
 
 App.CoursesCourseController = App.HeaderController.extend({
     title: function() { return this.get('course_name'); }.property('course_name'),
+    isBack: true,
     href: function() { return "http://player.dexit.co/player/?course=" + this.get('course_id') + '-altostratus'; }.property('course_id'),
 
     actions: {

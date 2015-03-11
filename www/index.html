@@ -43,7 +43,7 @@
             {{partial "header"}}
             <ul class="course_list">
                 {{#each cor in model}}
-                {{#link-to "courses.course" cor.course_id tagName="li" class="course_item"}}
+                {{#link-to "courses.course" cor.course_id tagName="li"}}
                     {{cor.course_name}}
                 {{/link-to}}
                 {{/each}}
