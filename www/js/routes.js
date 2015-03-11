@@ -9,7 +9,7 @@ App.IndexRoute = Em.Route.extend({
 App.CoursesRoute = Em.Route.extend({
     model: function() {
         var u = this.modelFor('application');
-        return Ex.getCourses(u.get('username'), u.get('password'));
+        return Ex.getCourses(u.get('email'), u.get('password'));
     }
 });
 
@@ -23,7 +23,8 @@ App.CoursesCourseRoute = Em.Route.extend({
     },
 
     beforeModel: function() {
-        Ex.authorizePlayer();
+        var u = this.modelFor('application');
+        Ex.authorizePlayer(u.get('username'), u.get('password'));
         dexit.test.xKBplugin.extract();
     }
 });

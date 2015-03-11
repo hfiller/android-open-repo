@@ -22,6 +22,7 @@ input {
     text-align: center;
     position: relative;
     box-sizing: border-box;
+
 }
 .header input {
     display: block;
@@ -49,6 +50,8 @@ input {
 .course_list {
     list-style-type: none;
     width: 100vw;
+    padding: 0px;
+    margin: 0px;
 }
 .course_list li {
     width: 100%;
@@ -60,7 +63,7 @@ input {
 
     border-style: solid;
     border-color: none;
-    border-width: 5px 5px 0 5px;
+    border-width: 10px 0 0 20px;
     
     padding: 20px; 
 }
