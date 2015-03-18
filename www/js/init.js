@@ -6,20 +6,12 @@ App.Router.map(function() {
     });
 });
 
-App.User = Em.Object.create({
-    username: null,
-    domain: null,
-    password: null,
+App.User = Em.Object.extend({
+    username: '',
+    password: '',
 
-    email: function(key, val) {
-        if(typeof val != 'undefined') {
-            var s = val.split('@');
-            console.log(s);
-            this.set('username', s[0]);
-            this.set('domain', s[1] || 'uwo.ca');
-        }
-
-        return this.get('username') + '@' + this.get('domain');
-    }.property('username', 'domain')
-});
+    email: function() {
+        return this.get('username') + '@uwo.ca';
+    }.property('username')
+}).create();
 
